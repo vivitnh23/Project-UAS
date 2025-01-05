@@ -11,6 +11,114 @@ Program ini adalah aplikasi berbasis terminal yang digunakan untuk membeli tiket
 - TicketProcess: Bertanggung jawab atas validasi input pengguna dan perhitungan total harga tiket.
 - TicketView: Menangani semua output, seperti menampilkan daftar tiket, pesan error, dan ringkasan pembelian.
 
+# Kode Program 
+```python
+from class_data.ticket_data import TicketData
+from class_process.ticket_process import TicketProcess
+from class_view.ticket_view import TicketView
+
+def main():
+    # Inisialisasi kelas
+    data = TicketData()
+    view = TicketView()
+    process = TicketProcess(data.get_tickets())
+
+    try:
+        # Tampilkan daftar tiket
+        view.display_tickets(data.get_tickets())
+
+        # Input pengguna
+        ticket_name = input("Masukkan nama tiket yang ingin dibeli: ")
+        quantity = int(input("Masukkan jumlah tiket: "))
+
+        # Validasi input
+        process.validate_input(ticket_name, quantity)
+
+        # Hitung total harga
+        total = process.calculate_total(ticket_name, quantity)
+        summary = {
+            "Nama Tiket": ticket_name,
+            "Jumlah Tiket": quantity,
+            "Total Harga": f"Rp {total}"
+        }
+
+        # Tampilkan ringkasan pembelian
+        view.display_summary(summary)
+
+    except ValueError as e:
+        view.display_message(f"Error: {e}")
+    except Exception as e:
+        view.display_message(f"Terjadi kesalahan: {e}")
+
+if __name__ == "__main__":
+    main()
+```
+
+# Output Program 
+````
+Daftar Tiket yang Tersedia:
+------------------------------
+VIP: Rp 500000
+Regular: Rp 200000
+Economy: Rp 100000
+------------------------------
+Masukkan nama tiket yang ingin dibeli: VIP
+Masukkan jumlah tiket: 2
+
+Ringkasan Pembelian:
+------------------------------
+Nama Tiket: VIP
+Jumlah Tiket: 2
+Total Harga: Rp 1000000
+------------------------------
+PS C:\Users\hp\Documents\Lab praktikum\Project UAS> & C:/Users/hp/AppData/Local/Programs/Python/Python312/python.exe "c:/Users/hp/Documents/Lab praktikum/Project UAS/main.py"
+
+Daftar Tiket yang Tersedia:
+------------------------------
+VIP: Rp 500000
+Regular: Rp 200000
+Economy: Rp 100000
+------------------------------
+Masukkan nama tiket yang ingin dibeli: Regular
+Masukkan jumlah tiket: 3
+
+Ringkasan Pembelian:
+------------------------------
+Nama Tiket: Regular
+Jumlah Tiket: 3
+Total Harga: Rp 600000
+------------------------------
+PS C:\Users\hp\Documents\Lab praktikum\Project UAS> & C:/Users/hp/AppData/Local/Programs/Python/Python312/python.exe "c:/Users/hp/Documents/Lab praktikum/Project UAS/main.py"
+
+Daftar Tiket yang Tersedia:
+------------------------------
+VIP: Rp 500000
+Regular: Rp 200000
+Economy: Rp 100000
+------------------------------
+Masukkan nama tiket yang ingin dibeli: economy
+Masukkan jumlah tiket: 1
+Error: Nama tiket tidak valid.
+PS C:\Users\hp\Documents\Lab praktikum\Project UAS> & C:/Users/hp/AppData/Local/Programs/Python/Python312/python.exe "c:/Users/hp/Documents/Lab praktikum/Project UAS/main.py"
+
+Daftar Tiket yang Tersedia:
+------------------------------
+VIP: Rp 500000
+Regular: Rp 200000
+Economy: Rp 100000
+------------------------------
+Masukkan nama tiket yang ingin dibeli: Economy
+Masukkan jumlah tiket: 1
+
+Ringkasan Pembelian:
+------------------------------
+Nama Tiket: Economy
+Jumlah Tiket: 1
+Total Harga: Rp 100000
+------------------------------
+PS C:\Users\hp\Documents\Lab praktikum\Project UAS>
+````
+
 # Cara Kerja Program 
 1. Inisialisasi Kelas
 - Program memulai dengan menginisialisasi tiga kelas utama:
