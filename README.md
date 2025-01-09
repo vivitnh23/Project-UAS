@@ -17,38 +17,60 @@ from class_data.ticket_data import TicketData
 from class_process.ticket_process import TicketProcess
 from class_view.ticket_view import TicketView
 
+
 def main():
-    # Inisialisasi kelas
     data = TicketData()
     view = TicketView()
     process = TicketProcess(data.get_tickets())
+    running = True
 
-    try:
-        # Tampilkan daftar tiket
-        view.display_tickets(data.get_tickets())
+    while running:
+        print("\n=== Program Pembelian Tiket ===")
+        print("1. Input Data")
+        print("2. Tampilkan Data Tiket")
+        print("3. Cari Data Tiket")
+        print("4. Keluar Program")
+        choice = input("Pilih menu: ")
 
-        # Input pengguna
-        ticket_name = input("Masukkan nama tiket yang ingin dibeli: ")
-        quantity = int(input("Masukkan jumlah tiket: "))
+        if choice == "1":  # Input Data
+            try:
+                view.display_tickets(data.get_tickets())
+                ticket_name = input("Masukkan nama tiket yang ingin dibeli: ")
+                quantity = int(input("Masukkan jumlah tiket: "))
+                process.validate_input(ticket_name, quantity)
+                total = process.calculate_total(ticket_name, quantity)
+                summary = {
+                    "Nama Tiket": ticket_name,
+                    "Jumlah Tiket": quantity,
+                    "Total Harga": f"Rp {total}"
+                }
+                view.display_summary(summary)
+            except ValueError as e:
+                print(f"Error: {e}")
+            except Exception as e:
+                print(f"Terjadi kesalahan: {e}")
 
-        # Validasi input
-        process.validate_input(ticket_name, quantity)
+        elif choice == "2":  # Tampilkan Data Tiket
+            print("\n=== Daftar Harga Tiket ===")
+            view.display_tickets(data.get_tickets())
 
-        # Hitung total harga
-        total = process.calculate_total(ticket_name, quantity)
-        summary = {
-            "Nama Tiket": ticket_name,
-            "Jumlah Tiket": quantity,
-            "Total Harga": f"Rp {total}"
-        }
+        elif choice == "3":  # Cari Data Tiket
+            try:
+                search_ticket = input("Masukkan nama tiket yang ingin dicari: ")
+                tickets = data.get_tickets()
+                if search_ticket in tickets:
+                    print(f"Tiket '{search_ticket}' ditemukan dengan harga Rp {tickets[search_ticket]}")
+                else:
+                    print(f"Tiket '{search_ticket}' tidak ditemukan.")
+            except Exception as e:
+                print(f"Terjadi kesalahan: {e}")
 
-        # Tampilkan ringkasan pembelian
-        view.display_summary(summary)
+        elif choice == "4":  # Keluar Program
+            print("Keluar dari program. Terima kasih!")
+            running = False
 
-    except ValueError as e:
-        view.display_message(f"Error: {e}")
-    except Exception as e:
-        view.display_message(f"Terjadi kesalahan: {e}")
+        else:
+            print("Pilihan tidak valid. Silakan coba lagi.")
 
 if __name__ == "__main__":
     main()
@@ -56,6 +78,13 @@ if __name__ == "__main__":
 
 # Output Program 
 ````
+=== Program Pembelian Tiket ===
+1. Input Data
+2. Tampilkan Data Tiket
+3. Cari Data Tiket
+4. Keluar Program
+Pilih menu: 1
+
 Daftar Tiket yang Tersedia:
 ------------------------------
 VIP: Rp 500000
@@ -63,59 +92,73 @@ Regular: Rp 200000
 Economy: Rp 100000
 ------------------------------
 Masukkan nama tiket yang ingin dibeli: VIP
-Masukkan jumlah tiket: 2
-
-Ringkasan Pembelian:
-------------------------------
-Nama Tiket: VIP
-Jumlah Tiket: 2
-Total Harga: Rp 1000000
-------------------------------
-PS C:\Users\hp\Documents\Lab praktikum\Project UAS> & C:/Users/hp/AppData/Local/Programs/Python/Python312/python.exe "c:/Users/hp/Documents/Lab praktikum/Project UAS/main.py"
-
-Daftar Tiket yang Tersedia:
-------------------------------
-VIP: Rp 500000
-Regular: Rp 200000
-Economy: Rp 100000
-------------------------------
-Masukkan nama tiket yang ingin dibeli: Regular
 Masukkan jumlah tiket: 3
 
 Ringkasan Pembelian:
 ------------------------------
-Nama Tiket: Regular
+Nama Tiket: VIP
 Jumlah Tiket: 3
-Total Harga: Rp 600000
+Total Harga: Rp 1500000
 ------------------------------
-PS C:\Users\hp\Documents\Lab praktikum\Project UAS> & C:/Users/hp/AppData/Local/Programs/Python/Python312/python.exe "c:/Users/hp/Documents/Lab praktikum/Project UAS/main.py"
+
+=== Program Pembelian Tiket ===
+1. Input Data
+2. Tampilkan Data Tiket
+3. Cari Data Tiket
+4. Keluar Program
+Pilih menu: 2
+
+=== Daftar Harga Tiket ===
 
 Daftar Tiket yang Tersedia:
 ------------------------------
 VIP: Rp 500000
-Regular: Rp 200000
-Economy: Rp 100000
-------------------------------
-Masukkan nama tiket yang ingin dibeli: economy
-Masukkan jumlah tiket: 1
-Error: Nama tiket tidak valid.
-PS C:\Users\hp\Documents\Lab praktikum\Project UAS> & C:/Users/hp/AppData/Local/Programs/Python/Python312/python.exe "c:/Users/hp/Documents/Lab praktikum/Project UAS/main.py"
+Pilih menu: 2
+
+=== Daftar Harga Tiket ===
 
 Daftar Tiket yang Tersedia:
 ------------------------------
 VIP: Rp 500000
+=== Daftar Harga Tiket ===
+
+Daftar Tiket yang Tersedia:
+------------------------------
+VIP: Rp 500000
+
+Daftar Tiket yang Tersedia:
+------------------------------
+VIP: Rp 500000
+Daftar Tiket yang Tersedia:
+------------------------------
+VIP: Rp 500000
+------------------------------
+VIP: Rp 500000
+VIP: Rp 500000
 Regular: Rp 200000
 Economy: Rp 100000
+Regular: Rp 200000
+Economy: Rp 100000
+Economy: Rp 100000
 ------------------------------
-Masukkan nama tiket yang ingin dibeli: Economy
-Masukkan jumlah tiket: 1
+------------------------------
 
-Ringkasan Pembelian:
-------------------------------
-Nama Tiket: Economy
-Jumlah Tiket: 1
-Total Harga: Rp 100000
-------------------------------
+=== Program Pembelian Tiket ===
+1. Input Data
+2. Tampilkan Data Tiket
+3. Cari Data Tiket
+4. Keluar Program
+Pilih menu: 3
+Masukkan nama tiket yang ingin dicari: VIP
+Tiket 'VIP' ditemukan dengan harga Rp 500000
+
+=== Program Pembelian Tiket ===
+1. Input Data
+2. Tampilkan Data Tiket
+3. Cari Data Tiket
+4. Keluar Program
+Pilih menu: 4
+Keluar dari program. Terima kasih!
 PS C:\Users\hp\Documents\Lab praktikum\Project UAS>
 ````
 
